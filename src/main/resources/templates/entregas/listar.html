@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Entregas - Sistema de Valores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl mr-3"></i>
+                        <a href="/inicio" class="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">Sistema de Valores</a>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <div class="relative group" th:if="${usuarioRol != 'secretario'}">
+                        <button class="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-building mr-2"></i>
+                            Administrar Entidades
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="/admin/entidades" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-list mr-2"></i>Ver Entidades
+                                </a>
+                                <a href="/admin/entidades/nueva" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-plus mr-2"></i>Nueva Entidad
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative group">
+                        <button class="flex items-center text-blue-600 bg-blue-50 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Entregas
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="/entregas" class="block px-4 py-2 text-sm text-blue-600 bg-blue-50 font-medium">
+                                    <i class="fas fa-list mr-2"></i>Ver Entregas
+                                </a>
+                                <a href="/entregas/nueva" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-plus mr-2"></i>Nueva Entrega
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="/reporte-conductor" class="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        <i class="fas fa-file-alt mr-2"></i>
+                        Reporte Conductor
+                    </a>
+                    
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-user-tie mr-2"></i>
+                            Secretario
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="/secretario/solicitudes" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-list mr-2"></i>Ver Solicitudes
+                                </a>
+                                <a href="/secretario/solicitudes/nueva" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-plus mr-2"></i>Nueva Solicitud
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <div class="space-y-1">
+                    <div class="text-gray-600 px-3 py-2 text-sm font-medium">Administrar Entidades</div>
+                    <a href="/admin/entidades" class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-list mr-2"></i>Ver Entidades
+                    </a>
+                    <a href="/admin/entidades/nueva" class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-plus mr-2"></i>Nueva Entidad
+                    </a>
+                </div>
+                
+                <div class="space-y-1">
+                    <div class="text-blue-600 px-3 py-2 text-sm font-medium bg-blue-50">Entregas</div>
+                    <a href="/entregas" class="block pl-6 pr-3 py-2 text-sm text-blue-600 bg-blue-50 font-medium">
+                        <i class="fas fa-list mr-2"></i>Ver Entregas
+                    </a>
+                    <a href="/entregas/nueva" class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-plus mr-2"></i>Nueva Entrega
+                    </a>
+                </div>
+                
+                <a href="/reporte-conductor" class="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                    <i class="fas fa-file-alt mr-2"></i>Reporte Conductor
+                </a>
+                
+                <div class="space-y-1">
+                    <div class="text-gray-600 px-3 py-2 text-sm font-medium">Secretario</div>
+                    <a href="/secretario/solicitudes" class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-list mr-2"></i>Ver Solicitudes
+                    </a>
+                    <a href="/secretario/solicitudes/nueva" class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-plus mr-2"></i>Nueva Solicitud
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="/inicio" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-home mr-2"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-sm font-medium text-gray-500">Entregas</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Header Section -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 mb-6">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center mb-4 sm:mb-0">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-paper-plane text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">Entregas en Cajeros</h1>
+                            <p class="text-sm text-gray-600">Gestión de entregas de valores en cajeros automáticos</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="/entregas/nueva" 
+                           class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            <i class="fas fa-plus mr-2"></i>
+                            Nueva Entrega
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters Section -->
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                    <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="Buscar por NIT, nombre o ubicación..." 
+                                   class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-64">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        <select id="filterDia" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Todos los días</option>
+                            <option value="Lunes">Lunes</option>
+                            <option value="Martes">Martes</option>
+                            <option value="Miércoles">Miércoles</option>
+                            <option value="Jueves">Jueves</option>
+                            <option value="Viernes">Viernes</option>
+                            <option value="Sábado">Sábado</option>
+                            <option value="Domingo">Domingo</option>
+                        </select>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <span id="totalEntregas">Total: 0 entregas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-hashtag mr-1"></i>ID
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-id-card mr-1"></i>NIT
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-building mr-1"></i>Entidad
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-calendar-week mr-1"></i>Día
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-calendar mr-1"></i>Fecha
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-clock mr-1"></i>Hora
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-dollar-sign mr-1"></i>Monto
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-map-marker-alt mr-1"></i>Ubicación
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-cogs mr-1"></i>Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="bg-white divide-y divide-gray-200">
+                        <tr th:each="e : ${listaEntregas}" class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${e.id}">1</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" th:text="${e.nitEntidad}">123456789-0</td>
+                            <td class="px-6 py-4 text-sm text-gray-900" th:text="${e.nombreEntidad}">Banco Nacional</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800" th:text="${e.diaSemana}">
+                                    Lunes
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" th:text="${e.fechaEntrega}">2024-01-15</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" th:text="${e.horaEntrega}">09:30</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <span class="font-semibold text-green-600" th:text="'$' + ${e.montoIngresado}">$50,000,000</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900" th:text="${e.ubicacionCajero}">Centro Comercial Plaza</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div class="flex space-x-2">
+                                    <a th:href="@{/entregas/editar/{id}(id=${e.id})}" 
+                                       class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors">
+                                        <i class="fas fa-edit mr-1"></i>
+                                        Editar
+                                    </a>
+                                    <a th:href="@{/entregas/eliminar/{id}(id=${e.id})}" 
+                                       class="inline-flex items-center px-3 py-1 bg-red-100 text-red-700 rounded-md hover:bg-red-200 transition-colors"
+                                       onclick="return confirm('¿Está seguro de eliminar esta entrega?')">
+                                        <i class="fas fa-trash mr-1"></i>
+                                        Eliminar
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="text-center py-12 hidden">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-inbox text-gray-400 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">No hay entregas registradas</h3>
+                <p class="text-gray-500 mb-4">Comience agregando una nueva entrega al sistema.</p>
+                <a href="/entregas/nueva" 
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-plus mr-2"></i>
+                    Nueva Entrega
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-chart-line text-green-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Entregas</p>
+                        <p class="text-2xl font-bold text-gray-900" id="totalCount">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-dollar-sign text-blue-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Monto Total</p>
+                        <p class="text-2xl font-bold text-gray-900" id="totalAmount">$0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-building text-purple-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Entidades Activas</p>
+                        <p class="text-2xl font-bold text-gray-900" id="entitiesCount">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Search and filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const filterDia = document.getElementById('filterDia');
+            const tableBody = document.getElementById('tableBody');
+            const totalEntregas = document.getElementById('totalEntregas');
+            const emptyState = document.getElementById('emptyState');
+
+            function filterTable() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedDay = filterDia.value;
+                const rows = tableBody.querySelectorAll('tr');
+                let visibleRows = 0;
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length === 0) return;
+
+                    const nit = cells[1].textContent.toLowerCase();
+                    const nombre = cells[2].textContent.toLowerCase();
+                    const dia = cells[3].textContent.trim();
+                    const ubicacion = cells[7].textContent.toLowerCase();
+
+                    const matchesSearch = nit.includes(searchTerm) || 
+                                        nombre.includes(searchTerm) || 
+                                        ubicacion.includes(searchTerm);
+                    const matchesDay = !selectedDay || dia === selectedDay;
+
+                    if (matchesSearch && matchesDay) {
+                        row.style.display = '';
+                        visibleRows++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                totalEntregas.textContent = `Total: ${visibleRows} entregas`;
+                
+                if (visibleRows === 0) {
+                    tableBody.parentElement.style.display = 'none';
+                    emptyState.classList.remove('hidden');
+                } else {
+                    tableBody.parentElement.style.display = '';
+                    emptyState.classList.add('hidden');
+                }
+            }
+
+            searchInput.addEventListener('input', filterTable);
+            filterDia.addEventListener('change', filterTable);
+
+            // Calculate stats
+            function calculateStats() {
+                const rows = tableBody.querySelectorAll('tr');
+                let totalCount = rows.length;
+                let totalAmount = 0;
+                const entities = new Set();
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length > 0) {
+                        const amountText = cells[6].textContent.replace(/[$,]/g, '');
+                        const amount = parseInt(amountText) || 0;
+                        totalAmount += amount;
+                        entities.add(cells[2].textContent.trim());
+                    }
+                });
+
+                document.getElementById('totalCount').textContent = totalCount;
+                document.getElementById('totalAmount').textContent = '$' + totalAmount.toLocaleString();
+                document.getElementById('entitiesCount').textContent = entities.size;
+                totalEntregas.textContent = `Total: ${totalCount} entregas`;
+            }
+
+            calculateStats();
+        });
+    </script>
+</body>
+</html>

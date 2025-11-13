@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Entidad - Sistema de Valores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl mr-3"></i>
+                        <a href="/inicio"
+                            class="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">Sistema de
+                            Valores</a>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <div class="relative group" th:if="${usuarioRol != 'secretario'}">
+                        <button
+                            class="flex items-center text-blue-600 bg-blue-50 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-building mr-2"></i>
+                            Administrar Entidades
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div
+                            class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="/admin/entidades"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-list mr-2"></i>Ver Entidades
+                                </a>
+                                <a href="/admin/entidades/nueva"
+                                    class="block px-4 py-2 text-sm text-blue-600 bg-blue-50 font-medium">
+                                    <i class="fas fa-plus mr-2"></i>Nueva Entidad
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <a href="/reporte-conductor"
+                        class="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        <i class="fas fa-file-alt mr-2"></i>
+                        Reporte Conductor
+                    </a>
+
+                    <div class="relative group">
+                        <button
+                            class="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-user-tie mr-2"></i>
+                            Secretario
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div
+                            class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="/secretario/solicitudes"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-list mr-2"></i>Ver Solicitudes
+                                </a>
+                                <a href="/secretario/solicitudes/nueva"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-plus mr-2"></i>Nueva Solicitud
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Logout Button -->
+                    <a th:href="@{/logout}"
+                        class="flex items-center text-red-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Cerrar Sesión
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button"
+                        class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <div class="space-y-1">
+                    <div class="text-blue-600 px-3 py-2 text-sm font-medium bg-blue-50">Administrar Entidades</div>
+                    <a href="/admin/entidades"
+                        class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-list mr-2"></i>Ver Entidades
+                    </a>
+                    <a href="/admin/entidades/nueva"
+                        class="block pl-6 pr-3 py-2 text-sm text-blue-600 bg-blue-50 font-medium">
+                        <i class="fas fa-plus mr-2"></i>Nueva Entidad
+                    </a>
+                </div>
+
+
+                <a href="/reporte-conductor"
+                    class="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                    <i class="fas fa-file-alt mr-2"></i>Reporte Conductor
+                </a>
+
+                <div class="space-y-1">
+                    <div class="text-gray-600 px-3 py-2 text-sm font-medium">Secretario</div>
+                    <a href="/secretario/solicitudes"
+                        class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-list mr-2"></i>Ver Solicitudes
+                    </a>
+                    <a href="/secretario/solicitudes/nueva"
+                        class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-plus mr-2"></i>Nueva Solicitud
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="/inicio"
+                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-home mr-2"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <a th:href="@{/admin/entidades}"
+                            class="text-sm font-medium text-gray-700 hover:text-blue-600">Entidades</a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-sm font-medium text-gray-500"
+                            th:text="${entidad.id != null ? 'Editar' : 'Nueva'} + ' Entidad'">Nueva Entidad</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Form Container -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+            <!-- Header -->
+            <!-- Mostrar error si existe -->
+            <div th:if="${error}" class="mb-4 px-4 py-3 rounded bg-red-100 text-red-800 border border-red-300">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <span th:text="${error}"></span>
+            </div>
+
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-building text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900"
+                            th:text="${entidad.id != null ? 'Editar' : 'Nueva'} + ' Entidad Financiera'">Nueva Entidad
+                            Financiera</h1>
+                        <p class="text-sm text-gray-600">Complete la información de la entidad financiera</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form th:action="@{/admin/entidades/guardar}" th:object="${entidad}" method="post" class="p-6">
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- NIT Field -->
+                    <div class="md:col-span-1">
+                        <label for="nit" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-id-card mr-1 text-gray-400"></i>
+                            NIT <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" th:field="*{nit}" id="nit" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            placeholder="Ej: 123456789-0">
+                        <p class="mt-1 text-xs text-gray-500">Número de Identificación Tributaria</p>
+                    </div>
+
+                    <!-- Nombre Field -->
+                    <div class="md:col-span-1">
+                        <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-building mr-1 text-gray-400"></i>
+                            Nombre <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" th:field="*{nombre}" id="nombre" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            placeholder="Nombre de la entidad financiera">
+                    </div>
+
+                    <!-- Dirección Field -->
+                    <div class="md:col-span-2">
+                        <label for="direccion" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-map-marker-alt mr-1 text-gray-400"></i>
+                            Dirección <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" th:field="*{direccion}" id="direccion" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            placeholder="Dirección completa de la entidad">
+                    </div>
+
+                    <!-- Teléfono Field -->
+                    <div class="md:col-span-1">
+                        <label for="telefono" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-phone mr-1 text-gray-400"></i>
+                            Teléfono <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" th:field="*{telefono}" id="telefono" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            placeholder="Ej: +57 300 123 4567">
+                    </div>
+                </div>
+
+                <!-- Required Fields Notice -->
+                <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                        <span class="text-sm text-blue-800">Los campos marcados con <span class="text-red-500">*</span>
+                            son obligatorios</span>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="mt-8 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
+                    <a th:href="@{/admin/entidades}"
+                        class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Volver a la lista
+                    </a>
+
+                    <div class="flex space-x-3">
+                        <button type="reset"
+                            class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+                            <i class="fas fa-undo mr-2"></i>
+                            Limpiar
+                        </button>
+                        <button type="submit"
+                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            <i class="fas fa-save mr-2"></i>
+                            Guardar Entidad
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Additional Info Card -->
+        <div class="mt-6 bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                Información Importante
+            </h3>
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>
+                    Asegúrese de que el NIT sea válido y esté correctamente digitado
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>
+                    La dirección debe ser completa e incluir ciudad y departamento
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>
+                    El teléfono debe incluir el código de área o país si es necesario
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>
+                    Todos los campos son obligatorios para el correcto funcionamiento del sistema
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Form validation feedback
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Guardando...';
+            submitButton.disabled = true;
+        });
+
+        // Auto-format NIT input
+        document.getElementById('nit').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 9) {
+                value = value.substring(0, 9) + '-' + value.substring(9, 10);
+            }
+            e.target.value = value;
+        });
+
+        // Auto-format phone input
+        document.getElementById('telefono').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 10) {
+                if (value.startsWith('57')) {
+                    value = '+57 ' + value.substring(2, 5) + ' ' + value.substring(5, 8) + ' ' + value.substring(8);
+                } else {
+                    value = value.substring(0, 3) + ' ' + value.substring(3, 6) + ' ' + value.substring(6);
+                }
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+
+</html>

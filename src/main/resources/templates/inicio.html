@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Valores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl mr-3"></i>
+                        <span class="text-xl font-bold text-gray-800">Sistema de Valores</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <div class="relative group" th:if="${usuarioRol != 'secretario'}">
+                        <button
+                            class="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-building mr-2"></i>
+                            Administrar Entidades
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div
+                            class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="/admin/entidades"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-list mr-2"></i>Ver Entidades
+                                </a>
+                                <a href="/admin/entidades/nueva"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-plus mr-2"></i>Nueva Entidad
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="/reporte-conductor"
+                        class="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        <i class="fas fa-file-alt mr-2"></i>
+                        Reporte conductor
+                    </a>
+
+                    <div class="relative group">
+                        <button
+                            class="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-user-tie mr-2"></i>
+                            Secretario
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div
+                            class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="/secretario/solicitudes"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-list mr-2"></i>Ver Solicitudes
+                                </a>
+                                <a href="/secretario/solicitudes/nueva"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-plus mr-2"></i>Nueva Solicitud
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a th:href="@{/logout}"
+                        class="flex items-center text-red-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Cerrar Sesión
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button"
+                        class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <div class="space-y-1">
+                    <div class="text-gray-600 px-3 py-2 text-sm font-medium">Administrar Entidades</div>
+                    <a href="/admin/entidades"
+                        class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-list mr-2"></i>Ver Entidades
+                    </a>
+                    <a href="/admin/entidades/nueva"
+                        class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-plus mr-2"></i>Nueva Entidad
+                    </a>
+                </div>
+
+                <a href="/reporte-conductor"
+                    class="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                    <i class="fas fa-file-alt mr-2"></i>Reporte Conductor
+                </a>
+
+                <div class="space-y-1">
+                    <div class="text-gray-600 px-3 py-2 text-sm font-medium">Secretario</div>
+                    <a href="/secretario/solicitudes"
+                        class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-list mr-2"></i>Ver Solicitudes
+                    </a>
+                    <a href="/secretario/solicitudes/nueva"
+                        class="block pl-6 pr-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        <i class="fas fa-plus mr-2"></i>Nueva Solicitud
+                    </a>
+                </div>
+            </div>
+            <a th:href="@{/logout}"
+                class="flex items-center text-red-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                Cerrar Sesión
+            </a>
+        </div>
+
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-6">
+                <i class="fas fa-shield-alt text-white text-2xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Sistema de Valores</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Plataforma integral para la gestión de valores, entregas y procesos administrativos
+            </p>
+        </div>
+
+        <!-- Quick Actions Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Administrar Entidades -->
+            <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border border-gray-100" th:if="${usuarioRol != 'secretario'}">
+
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-building text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Administrar Entidades</h3>
+                </div>
+                <p class="text-gray-600 mb-4">Gestiona las entidades del sistema y crea nuevas cuando sea necesario.</p>
+                <div class="space-y-2">
+                    <a href="/admin/entidades"
+                        class="block w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-center">
+                        <i class="fas fa-list mr-2"></i>Ver Entidades
+                    </a>
+                    <a href="/admin/entidades/nueva"
+                        class="block w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors text-center">
+                        <i class="fas fa-plus mr-2"></i>Nueva Entidad
+                    </a>
+                </div>
+            </div>
+
+            <!-- Reporte Conducto -->
+            <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border border-gray-100">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-file-alt text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Reporte Conductor</h3>
+                </div>
+                <p class="text-gray-600 mb-4">Accede a los reportes del conductor regular para revisión y análisis.</p>
+                <a href="/reporte-conductor"
+                    class="block w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors text-center">
+                    <i class="fas fa-eye mr-2"></i>Ver Reporte
+                </a>
+            </div>
+
+            <!-- Secretario -->
+            <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border border-gray-100">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-user-tie text-indigo-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Área del Secretario</h3>
+                </div>
+                <p class="text-gray-600 mb-4">Gestiona las solicitudes y administra los procesos del área secretarial.
+                </p>
+
+                <!-- manito por el arreglo son 200 lucas cobro velocidad y que se que hay que hacer-->
+                <div class="space-y-2">
+                    <a href="/secretario/solicitudes"
+                        class="block w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors text-center">
+                        <i class="fas fa-list mr-2"></i>Ver Solicitudes
+                    </a>
+                    <a href="/secretario/solicitudes/nueva"
+                        class="block w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors text-center">
+                        <i class="fas fa-plus mr-2"></i>Nueva Solicitud
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats or Additional Info -->
+        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Información del Sistema</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="p-4">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">24/7</div>
+                    <div class="text-gray-600">Disponibilidad</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-bold text-green-600 mb-2">100%</div>
+                    <div class="text-gray-600">Seguridad</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-bold text-purple-600 mb-2">∞</div>
+                    <div class="text-gray-600">Confiabilidad</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
