@@ -14,8 +14,4 @@ public interface SolicitudRepository extends JpaRepository<Solicitud, Long> {
     @Modifying
     @Query("DELETE FROM Solicitud s WHERE s.nitEntidad = :nit")
     void deleteByNitEntidad(@Param("nit") String nit);
-
-    @Query("SELECT DISTINCT s.nombreConductor FROM Solicitud s WHERE s.nombreConductor IS NOT NULL AND s.nombreConductor <> ''")
-    java.util.List<String> findDistinctNombreConductor();
-
 }
