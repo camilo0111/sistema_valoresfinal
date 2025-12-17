@@ -11,9 +11,8 @@ public class ReporteConductor {
     private String valor;
     private String direccionEntidad;
 
-    public ReporteConductor(String codigoSolicitud, String nitEntidad, String nombreEntidad,
-            String nombreConductor, String fechaYHoraSolicitud, String fechaRealizado,
-            String valor, String direccionEntidad) {
+    public ReporteConductor(String codigoSolicitud, String nitEntidad, String nombreEntidad, String nombreConductor,
+            String fechaYHoraSolicitud, String fechaRealizado, String valor, String direccionEntidad) {
         this.codigoSolicitud = codigoSolicitud;
         this.nitEntidad = nitEntidad;
         this.nombreEntidad = nombreEntidad;

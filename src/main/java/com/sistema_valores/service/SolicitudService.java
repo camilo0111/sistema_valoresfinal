@@ -20,6 +20,10 @@ public class SolicitudService {
         return repo.findAll();
     }
 
+    public java.util.List<String> listarConductores() {
+        return repo.findDistinctNombreConductor();
+    }
+
     public void guardar(Solicitud solicitud) {
         repo.save(solicitud);
     }

@@ -41,6 +41,7 @@ public class SolicitudController {
         model.addAttribute("solicitud", new Solicitud());
         model.addAttribute("entidades", entidadService.listar());
         model.addAttribute("tipos", TipoSolicitud.values());
+        model.addAttribute("conductores", service.listarConductores());
         return "solicitudes/formulario";
     }
 
@@ -56,6 +57,7 @@ public class SolicitudController {
             // Volvemos a cargar los selects
             model.addAttribute("entidades", entidadService.listar());
             model.addAttribute("tipos", Arrays.asList("Normal", "Urgente", "Programada"));
+            model.addAttribute("conductores", service.listarConductores());
             model.addAttribute("solicitud", solicitud); // volver a mostrar los datos ingresados
 
             return "solicitudes/formulario"; // Asegúrate de que esta sea la vista correcta
@@ -67,6 +69,7 @@ public class SolicitudController {
         model.addAttribute("solicitud", service.obtenerPorId(id));
         model.addAttribute("entidades", entidadService.listar());
         model.addAttribute("tipos", TipoSolicitud.values());
+        model.addAttribute("conductores", service.listarConductores());
         return "solicitudes/formulario";
     }
 

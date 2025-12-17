@@ -170,6 +170,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <i class="fas fa-hashtag mr-1"></i>ID
                         </th>
+                           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                               <i class="fas fa-user mr-1"></i>Conductor
+                           </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <i class="fas fa-barcode mr-1"></i>Código
                         </th>
@@ -197,16 +200,11 @@
                         class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${s.id}">1
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" th:text="${s.nombreConductor}">Juan Pérez</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" th:text="${s.codigo}">SOL-001</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" th:text="${s.nitEntidad}">
-                            123456789-0</td>
-                        
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-                            th:text="${#temporals.format(s.fechaSolicitud,'dd/MM/yyyy HH:mm')}">
-                            2024-01-15 14:30
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600"
-                            th:text="${#numbers.formatDecimal(s.valor, 0, 'COMMA', 0, 'POINT')}">$10,000,000</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" th:text="${s.nitEntidad}">123456789-0</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" th:text="${#temporals.format(s.fechaSolicitud,'dd/MM/yyyy HH:mm')}">2024-01-15 14:30</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600" th:text="${#numbers.formatDecimal(s.valor, 0, 'COMMA', 0, 'POINT')}">$10,000,000</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span
   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
@@ -235,7 +233,7 @@
                     </tr>
                     <!-- Estado vacío -->
                     <tr th:if="${#lists.isEmpty(listaSolicitudes)}">
-                        <td colspan="7" class="px-6 py-8 text-center">
+                            <td colspan="8" class="px-6 py-8 text-center">
                             <div class="flex flex-col items-center">
                                 <i class="fas fa-clipboard-list text-gray-300 text-4xl mb-4"></i>
                                 <h3 class="text-lg font-medium text-gray-900 mb-2">

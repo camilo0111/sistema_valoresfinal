@@ -20,6 +20,7 @@ public class ReporteConductorRepositoryImpl implements ReporteConductorRepositor
                         "s.codigo, " +
                         "s.nitEntidad, " +
                         "e.nombre, " +
+                        "s.nombreConductor, " +
                         "CAST(s.fechaSolicitud AS string), " +
                         "CAST(s.fechaRealizado AS string), " +
                         "CAST(s.valor AS string), " +
